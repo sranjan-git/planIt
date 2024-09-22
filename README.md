@@ -69,7 +69,7 @@ This project is a simple **Personal Calendar** application that allows users to 
      ```
    - Create a `.env` file in the root of the backend folder with the following environment variables:
      ```bash
-     MONGO_URI=your_mongodb_connection_string
+     MONGO_URI=mongodb://localhost:27017/
      ```
    - Run the backend server:
      ```bash
