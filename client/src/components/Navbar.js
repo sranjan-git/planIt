@@ -1,9 +1,11 @@
-// src/NavBar.js
 import React from "react";
 import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
 import { signInWithGoogle, signOutUser } from "../firebase";
+import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 
 const NavBar = ({ user, setUser }) => {
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle();
@@ -22,10 +24,18 @@ const NavBar = ({ user, setUser }) => {
     }
   };
 
+  const handleHomeClick = () => {
+    navigate("/"); 
+  };
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#1976d2" }}>
       <Toolbar>
-        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h6"
+          sx={{ flexGrow: 1, cursor: "pointer" }} 
+          onClick={handleHomeClick} 
+        >
           PlanIt.
         </Typography>
 
@@ -52,7 +62,7 @@ const NavBar = ({ user, setUser }) => {
               alt="Google"
               style={{ width: 20, height: 20, marginRight: 10 }}
             />
-            Sign in 
+            Sign in
           </Button>
         )}
       </Toolbar>
