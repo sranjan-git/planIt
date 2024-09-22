@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -16,13 +16,66 @@ import {
   ListItem,
   ListItemText,
   IconButton,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import { makeStyles } from "@mui/styles"; // To add custom styling
 
+// Moment localizer for the calendar
 const localizer = momentLocalizer(moment);
 
+// Custom styles to resemble Google Calendar
+const useStyles = makeStyles({
+  calendar: {
+    height: 500,
+    marginBottom: "20px",
+    border: "1px solid #ccc",
+    borderRadius: "8px",
+    padding: "15px",
+    backgroundColor: "#fafafa",
+    "& .rbc-toolbar": {
+      marginBottom: "10px",
+    },
+    "& .rbc-month-view": {
+      borderRadius: "8px",
+      border: "1px solid #e0e0e0",
+      backgroundColor: "#ffffff",
+    },
+    "& .rbc-header": {
+      fontWeight: "bold",
+      color: "#3b5998",
+    },
+    "& .rbc-day-bg": {
+      backgroundColor: "#f5f5f5",
+      "&:hover": {
+        backgroundColor: "#e8f0fe",
+      },
+    },
+    "& .rbc-event": {
+      backgroundColor: "#4285F4", // Google Calendar blue
+      borderRadius: "5px",
+      padding: "2px",
+      color: "white",
+      border: "none",
+      "&:hover": {
+        backgroundColor: "#357ae8",
+      },
+    },
+  },
+  dialogTitle: {
+    backgroundColor: "#f5f5f5",
+    borderBottom: "1px solid #ccc",
+    padding: "10px 15px",
+  },
+  dialogActions: {
+    padding: "10px 15px",
+    borderTop: "1px solid #ccc",
+  },
+});
+
 const MyCalendar = ({ user }) => {
+  const classes = useStyles();
   const [events, setEvents] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [currentEvent, setCurrentEvent] = useState(null);
@@ -33,13 +86,7 @@ const MyCalendar = ({ user }) => {
     end: new Date(),
   });
 
-  useEffect(() => {
-    if (user) {
-      fetchEvents();
-    }
-  }, [user]);
-
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     try {
       const response = await axios.post("http://localhost:5005/api/readevent", {
         email: user.email,
@@ -48,7 +95,13 @@ const MyCalendar = ({ user }) => {
     } catch (error) {
       console.error("Error fetching events", error);
     }
-  };
+  }, [user.email]);
+
+  useEffect(() => {
+    if (user) {
+      fetchEvents();
+    }
+  }, [user, fetchEvents]);
 
   const handleOpenDialog = (event = null) => {
     if (event) {
@@ -118,11 +171,11 @@ const MyCalendar = ({ user }) => {
 
   return (
     <Container>
-      <h1>Calendar</h1>
+      <Typography variant="h4" gutterBottom>
+        Calendar
+      </Typography>
       <Box sx={{ marginBottom: "20px" }}>
-        {/* <Button variant="contained" onClick={() => setEvents([])}>
-          Clear Events
-        </Button> */}
+        {/* Additional buttons or actions */}
       </Box>
 
       <Calendar
@@ -132,12 +185,13 @@ const MyCalendar = ({ user }) => {
         endAccessor="end"
         style={{ height: 500 }}
         selectable
+        className={classes.calendar}
         onSelectSlot={handleSelectSlot}
         onSelectEvent={(event) => handleOpenDialog(event)}
       />
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>
+        <DialogTitle className={classes.dialogTitle}>
           {currentEvent ? "Edit Event" : "Add New Event"}
         </DialogTitle>
         <DialogContent>
@@ -184,7 +238,7 @@ const MyCalendar = ({ user }) => {
             }}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions className={classes.dialogActions}>
           <Button onClick={handleCloseDialog}>Cancel</Button>
           <Button onClick={handleSaveEvent} variant="contained">
             Save
