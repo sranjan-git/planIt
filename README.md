@@ -96,7 +96,7 @@ This project is a simple **Personal Calendar** application that allows users to 
 
 1. Start the backend server by navigating to the `server` folder and running `npm start`.
 2. Start the frontend by navigating to the `client` folder and running `npm start`.
-3. Open your browser and navigate to `http://localhost:3001/` to access the application.
+3. Open your browser and navigate to `http://localhost:3000/` to access the application.
 
 ---
 
