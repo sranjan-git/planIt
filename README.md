@@ -1,7 +1,3 @@
-Here's a professional `README.md` for your project:
-
----
-
 # planIt - A Calendar App
 
 ## Overview
