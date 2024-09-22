@@ -67,7 +67,7 @@ This project is a simple **Personal Calendar** application that allows users to 
      ```bash
      npm install
      ```
-   - Create a `.env` file in the root of the backend folder with the following environment variables:
+   - Create a `.env` file in the root of the server folder with the following environment variables:
      ```bash
      MONGO_URI=mongodb://localhost:27017/
      ```
