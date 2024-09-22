@@ -85,12 +85,6 @@ This project is a simple **Personal Calendar** application that allows users to 
      ```bash
      npm install
      ```
-   - Create a `.env` file in the root of the frontend folder with the Firebase configuration:
-     ```bash
-     REACT_APP_FIREBASE_API_KEY=your_firebase_api_key
-     REACT_APP_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-     REACT_APP_FIREBASE_PROJECT_ID=your_firebase_project_id
-     ```
    - Run the frontend application:
      ```bash
      npm start
