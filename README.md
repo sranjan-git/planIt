@@ -1,5 +1,4 @@
-https://github.com/user-attachments/assets/348b74a2-f60d-4025-9eb0-a4eb19af70cf
-Uploading Screen Recording 2024-09-23 at 9.37.06 AM.mov…
+https://github.com/user-attachments/assets/619b3f97-21c0-400d-b909-c9b9d693482d
 
 # planIt - A Calendar App
 
