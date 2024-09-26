@@ -1,6 +1,7 @@
+# planIt - A Calendar App
 https://github.com/user-attachments/assets/619b3f97-21c0-400d-b909-c9b9d693482d
 
-# planIt - A Calendar App
+
 
 ## Overview
 
