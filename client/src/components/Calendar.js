@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -21,6 +21,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { makeStyles } from "@mui/styles"; // To add custom styling
+import { UserContext } from "../context/ct";
 
 // Moment localizer for the calendar
 const localizer = momentLocalizer(moment);
@@ -74,7 +75,7 @@ const useStyles = makeStyles({
   },
 });
 
-const MyCalendar = ({ user }) => {
+const MyCalendar = () => {
   const classes = useStyles();
   const [events, setEvents] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -86,7 +87,11 @@ const MyCalendar = ({ user }) => {
     end: new Date(),
   });
 
+  const { user } = useContext(UserContext);
+
+  // Fetch events using the user email
   const fetchEvents = useCallback(async () => {
+    if (!user) return; // Early return if no user is available
     try {
       const response = await axios.post("http://localhost:5005/api/readevent", {
         email: user.email,
@@ -95,13 +100,12 @@ const MyCalendar = ({ user }) => {
     } catch (error) {
       console.error("Error fetching events", error);
     }
-  }, [user.email]);
+  }, [user]);
 
+  // Fetch events when the component mounts or user changes
   useEffect(() => {
-    if (user) {
-      fetchEvents();
-    }
-  }, [user, fetchEvents]);
+    fetchEvents();
+  }, [fetchEvents]);
 
   const handleOpenDialog = (event = null) => {
     if (event) {
@@ -168,6 +172,14 @@ const MyCalendar = ({ user }) => {
     });
     handleOpenDialog();
   };
+
+  if (!user) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <Typography variant="h6">Please sign in to access your calendar.</Typography>
+      </Box>
+    );
+  }
 
   return (
     <Container>
